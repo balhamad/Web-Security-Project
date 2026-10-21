@@ -1,0 +1,50 @@
+<%- include('partials/header') %>
+<h1>Log in</h1>
+<p class="lead">Use <code>wiener:peter</code> or <code>carlos:montoya</code>. The vulnerable store exposes selectable auth flaws; the secure store normalizes the same flow.</p>
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+<% if (subtle) { %>
+  <p class="error"><%= subtle %></p>
+<% } %>
+<form class="panel" method="post" action="<%= pathBase %>/login">
+  <label>Username
+    <input name="username" autocomplete="username" required>
+  </label>
+  <label>Password
+    <input name="password" type="password" autocomplete="current-password" required>
+  </label>
+  <% if (mode === 'vulnerable') { %>
+    <%# LAB: Username enumeration via different responses VULNERABILITY. %>
+    <%# LAB: Username enumeration via subtly different responses VULNERABILITY. %>
+    <%# LAB: Username enumeration via response timing VULNERABILITY. %>
+    <%# LAB: Broken brute-force protection, IP block VULNERABILITY. %>
+    <%# LAB: Username enumeration via account lock VULNERABILITY. %>
+    <label>Vulnerability demo
+      <select name="scenario">
+        <option value="different">Different username/password responses</option>
+        <option value="subtle">Subtle username enumeration response</option>
+        <option value="timing">Timing username enumeration</option>
+        <option value="broken-bruteforce">Broken brute-force protection</option>
+        <option value="lockout">Account lock enumeration</option>
+      </select>
+    </label>
+  <% } else { %>
+    <%# SECURE PATCH: Username enumeration via different responses. %>
+    <%# SECURE PATCH: Username enumeration via subtly different responses. %>
+    <%# SECURE PATCH: Username enumeration via response timing. %>
+    <%# SECURE PATCH: Broken brute-force protection, IP block. %>
+    <%# SECURE PATCH: Username enumeration via account lock. %>
+  <% } %>
+  <label class="check">
+    <% if (mode === 'vulnerable') { %>
+      <%# LAB: Brute-forcing a stay-logged-in cookie VULNERABILITY. %>
+    <% } else { %>
+      <%# SECURE PATCH: Brute-forcing a stay-logged-in cookie. %>
+    <% } %>
+    <input type="checkbox" name="remember" value="1">
+    Stay logged in
+  </label>
+  <button type="submit">Continue</button>
+</form>
+<%- include('partials/footer') %>
